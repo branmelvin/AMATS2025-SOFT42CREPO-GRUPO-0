@@ -17,13 +17,13 @@ public class InventarioController {
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("listaInventario", service.listar());
-        return "inventario/listar";
+        return "Inventario/listar";
     }
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("inventario", new Inventario());
-        return "inventario/formulario";
+        return "Inventario/formulario";
     }
 
     @PostMapping("/guardar")
@@ -37,7 +37,7 @@ public class InventarioController {
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
         model.addAttribute("inventario", service.buscar(id).orElse(new Inventario()));
-        return "inventario/formulario";
+        return "Inventario/formulario";
     }
 
     @GetMapping("/eliminar/{id}")

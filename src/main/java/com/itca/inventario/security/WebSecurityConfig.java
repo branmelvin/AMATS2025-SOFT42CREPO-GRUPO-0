@@ -29,7 +29,7 @@ public class WebSecurityConfig {
     public UserDetailsService userDetailsService() {
         return username -> usuarioRepository.findByUsuario(username)
                 .map(u -> {
-                    String role = "ROLE_" + (u.getRol() == null ? "Encargado" : u.getRol());
+                    String role =(u.getRol() == null ? "Encargado" : u.getRol());
                     return new User(u.getUsuario(), u.getContrasena(), List.of(new SimpleGrantedAuthority(role)));
                 })
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
