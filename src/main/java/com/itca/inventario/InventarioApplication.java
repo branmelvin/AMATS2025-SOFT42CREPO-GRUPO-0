@@ -1,13 +1,13 @@
-package com.example.Sistema_Educacion_Continua;
+package com.itca.inventario;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SistemaEducacionContinuaApplication {
+public class InventarioApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SistemaEducacionContinuaApplication.class, args);
+		SpringApplication.run(InventarioApplication.class, args);
 	}
 
 }

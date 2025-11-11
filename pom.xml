@@ -8,11 +8,11 @@
 		<version>3.5.7</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.example</groupId>
-	<artifactId>Sistema_Educacion_Continua</artifactId>
+	<groupId>com.itca</groupId>
+	<artifactId>inventario</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Sistema_Educacion_Continua</name>
+	<name>inventario</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

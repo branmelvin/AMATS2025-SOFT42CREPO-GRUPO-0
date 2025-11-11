@@ -1,4 +1,4 @@
-package com.example.Sistema_Educacion_Continua;
+package com.itca.inventario;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
@@ -7,7 +7,7 @@ public class ServletInitializer extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(SistemaEducacionContinuaApplication.class);
+		return application.sources(InventarioApplication.class);
 	}
 
 }

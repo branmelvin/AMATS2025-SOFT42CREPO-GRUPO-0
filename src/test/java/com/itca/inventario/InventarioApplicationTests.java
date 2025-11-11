@@ -1,10 +1,10 @@
-package com.example.Sistema_Educacion_Continua;
+package com.itca.inventario;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SistemaEducacionContinuaApplicationTests {
+class InventarioApplicationTests {
 
 	@Test
 	void contextLoads() {
