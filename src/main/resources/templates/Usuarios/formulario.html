@@ -1,75 +1,179 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
+    <meta charset="UTF-8">
     <title>Nuevo Usuario</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 60px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #1e3a8a;
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 10px;
+        }
+
+        fieldset {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        legend {
+            font-weight: 600;
+            color: #374151;
+            font-size: 1rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+            outline: none;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: 1px solid #fca5a5;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 15px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            font-size: 0.95rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-cancel {
+            background: #f9fafb;
+            color: #374151;
+            border: 1px solid #ccc;
+        }
+
+        .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        .btn-save {
+            background: #2563eb;
+            color: white;
+            border: none;
+        }
+
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+
+        .text-red {
+            color: #dc2626;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 30px 10px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 <div layout:fragment="content">
-    <div class="max-w-xl mx-auto py-8">
-        <div class="bg-white p-8 md:p-10 rounded-xl shadow-2xl border border-gray-100">
+    <div class="container">
+        <h1>⭐ Registrar Nuevo Usuario</h1>
 
-            <h1 class="text-3xl font-extrabold text-gray-800 mb-6 border-b pb-3">
-                ⭐ Registrar Nuevo Usuario
-            </h1>
-
-            <div th:if="${error}" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                <strong>Error:</strong> <span th:text="${error}"></span>
-            </div>
-
-            <form th:action="@{/usuarios/guardar}" method="post">
-
-                <fieldset class="mb-6 p-4 border border-gray-200 rounded-lg">
-                    <legend class="text-lg font-semibold text-gray-700 px-2">Datos Personales</legend>
-
-                    <div class="mb-4">
-                        <label for="nombre" class="block mb-1 font-medium text-gray-700">Nombre Completo: <span class="text-red-500">*</span></label>
-                        <input type="text" id="nombre" name="nombre" th:value="${usuario.nombre}" required
-                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
-                    </div>
-                </fieldset>
-
-                <fieldset class="mb-6 p-4 border border-gray-200 rounded-lg">
-                    <legend class="text-lg font-semibold text-gray-700 px-2">Credenciales y Permisos</legend>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label for="usuario" class="block mb-1 font-medium text-gray-700">Nombre de Usuario (Login): <span class="text-red-500">*</span></label>
-                            <input type="text" id="usuario" name="usuario" th:value="${usuario.usuario}" required
-                                   class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
-                        </div>
-                        <div>
-                            <label for="contrasena" class="block mb-1 font-medium text-gray-700">Contraseña: <span class="text-red-500">*</span></label>
-                            <input type="password" id="contrasena" name="contrasena" required
-                                   class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
-                        </div>
-                    </div>
-                    <div class="mb-4">
-                        <label for="confirmarContrasena" class="block mb-1 font-medium text-gray-700">Confirmar Contraseña: <span class="text-red-500">*</span></label>
-                        <input type="password" id="confirmarContrasena" name="confirmarContrasena" required
-                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
-                    </div>
-
-                    <div>
-                        <label for="rol" class="block mb-1 font-medium text-gray-700">Rol/Nivel de Acceso: <span class="text-red-500">*</span></label>
-                        <select id="rol" name="rol"
-                                class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
-                            <option th:each="r : ${roles}" th:value="${r}" th:text="${r}" th:selected="${usuario.rol == r}"></option>
-                        </select>
-                    </div>
-                </fieldset>
-
-                <div class="flex justify-end space-x-4 pt-4 border-t border-gray-200">
-                    <a href="/usuarios"
-                       class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
-                        ↩️ Cancelar
-                    </a>
-                    <button type="submit"
-                            class="inline-flex items-center justify-center px-6 py-3 border border-transparent shadow-lg text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
-                        💾 Guardar Usuario
-                    </button>
-                </div>
-            </form>
+        <div th:if="${error}" class="error-message">
+            <strong>Error:</strong> <span th:text="${error}"></span>
         </div>
+
+        <form th:action="@{/usuarios/guardar}" method="post">
+
+            <fieldset>
+                <legend>Datos Personales</legend>
+                <div class="form-group">
+                    <label for="nombre">Nombre Completo: <span class="text-red">*</span></label>
+                    <input type="text" id="nombre" name="nombre" th:value="${usuario.nombre}" required>
+                </div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Credenciales y Permisos</legend>
+                <div class="form-group">
+                    <label for="usuario">Nombre de Usuario (Login): <span class="text-red">*</span></label>
+                    <input type="text" id="usuario" name="usuario" th:value="${usuario.usuario}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contrasena">Contraseña: <span class="text-red">*</span></label>
+                    <input type="password" id="contrasena" name="contrasena" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmarContrasena">Confirmar Contraseña: <span class="text-red">*</span></label>
+                    <input type="password" id="confirmarContrasena" name="confirmarContrasena" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="rol">Rol/Nivel de Acceso: <span class="text-red">*</span></label>
+                    <select id="rol" name="rol" required>
+                        <option th:each="r : ${roles}" th:value="${r}" th:text="${r}" th:selected="${usuario.rol == r}"></option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <div class="button-group">
+                <a href="/usuarios" class="btn btn-cancel">↩️ Cancelar</a>
+                <button type="submit" class="btn btn-save">💾 Guardar Usuario</button>
+            </div>
+        </form>
     </div>
 </div>
 </body>
