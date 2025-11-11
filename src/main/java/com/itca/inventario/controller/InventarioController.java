@@ -12,9 +12,7 @@ public class InventarioController {
 
     private final InventarioService service;
 
-    public InventarioController(InventarioService service) {
-        this.service = service;
-    }
+    public InventarioController(InventarioService service) { this.service = service; }
 
     @GetMapping
     public String listar(Model model) {
@@ -30,13 +28,15 @@ public class InventarioController {
 
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Inventario inv) {
+        // ajustar cantidadActual si es null
+        if (inv.getCantidadActual() == null) inv.setCantidadActual(0);
         service.guardar(inv);
         return "redirect:/inventario";
     }
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
-        model.addAttribute("inventario", service.buscarPorId(id).orElse(new Inventario()));
+        model.addAttribute("inventario", service.buscar(id).orElse(new Inventario()));
         return "inventario/formulario";
     }
 

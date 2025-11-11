@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Registrar Usuario</h1>
+
+    <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
+        <label class="block mb-2">Nombre:</label>
+        <input type="text" th:field="*{nombre}" class="border p-2 w-full mb-3" required>
+
+        <label class="block mb-2">Usuario:</label>
+        <input type="text" th:field="*{usuario}" class="border p-2 w-full mb-3" required>
+
+        <label class="block mb-2">Contraseña:</label>
+        <input type="password" th:field="*{contrasena}" class="border p-2 w-full mb-3" required>
+
+        <label class="block mb-2">Rol:</label>
+        <select th:field="*{rol}" class="border p-2 w-full mb-3">
+            <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
+        </select>
+
+        <div class="flex justify-between">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
+            <a href="/usuarios" class="text-gray-600">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

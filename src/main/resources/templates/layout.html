@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{::html}">
+<head>
+    <meta charset="UTF-8">
+    <title th:replace="${title} ?: 'Inventario ITCA'">Inventario</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+<nav class="bg-white shadow p-4">
+    <div class="max-w-6xl mx-auto flex justify-between">
+        <div><a href="/dashboard" class="font-bold">Inventario ITCA</a></div>
+        <div class="space-x-4">
+            <a href="/inventario">Inventario</a>
+            <a href="/movimientos">Movimientos</a>
+            <a href="/usuarios" th:if="${#authorization.expression('hasRole(''Administrador'')')}">Usuarios</a>
+            <a href="/reports/inventario">Exportar Inventario</a>
+            <a href="/reports/movimientos">Exportar Movimientos</a>
+            <a href="/logout">Salir</a>
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-6xl mx-auto p-6" th:fragment="content">
+    <!-- contenido -->
+</div>
+
+</body>
+</html>

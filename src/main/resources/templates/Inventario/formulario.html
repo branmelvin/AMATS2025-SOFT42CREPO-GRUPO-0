@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario Inventario</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 p-6">
+<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4"
+        th:text="${inventario.id != null} ? 'Editar Registro' : 'Nuevo Registro'"></h1>
+
+    <form th:action="@{/inventario/guardar}" th:object="${inventario}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <label class="block mb-2">Nombre:</label>
+        <input type="text" th:field="*{nombre}" class="border p-2 w-full mb-3" required>
+
+        <label class="block mb-2">Código:</label>
+        <input type="text" th:field="*{codigo}" class="border p-2 w-full mb-3">
+
+        <label class="block mb-2">Cantidad Total:</label>
+        <input type="number" th:field="*{cantidadTotal}" class="border p-2 w-full mb-3">
+
+        <label class="block mb-2">Cantidad Actual:</label>
+        <input type="number" th:field="*{cantidadActual}" class="border p-2 w-full mb-3">
+
+        <label class="block mb-2">Área Encargada:</label>
+        <input type="text" th:field="*{areaEncargada}" class="border p-2 w-full mb-3">
+
+        <label class="block mb-2">Tipo:</label>
+        <input type="text" th:field="*{tipo}" class="border p-2 w-full mb-3">
+
+        <label class="block mb-2">Ubicación:</label>
+        <input type="text" th:field="*{ubicacion}" class="border p-2 w-full mb-3">
+
+        <label class="block mb-2">Observación:</label>
+        <textarea th:field="*{observacion}" class="border p-2 w-full mb-3"></textarea>
+
+        <div class="flex justify-between">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded" type="submit">Guardar</button>
+            <a href="/inventario" class="text-gray-600">Cancelar</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

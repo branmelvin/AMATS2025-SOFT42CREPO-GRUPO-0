@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="bg-white p-4 shadow">
+    <div class="max-w-6xl mx-auto flex justify-between">
+        <div><a href="/dashboard" class="font-bold">Inventario ITCA</a></div>
+        <div>
+            <a href="/inventario" class="mr-4">Inventario</a>
+            <a href="/movimientos" class="mr-4">Movimientos</a>
+            <a href="/usuarios" class="mr-4">Usuarios</a>
+            <a href="/logout">Salir</a>
+        </div>
+    </div>
+</nav>
+
+<div class="max-w-6xl mx-auto p-6">
+    <h1 class="text-2xl font-bold mb-4">Panel principal</h1>
+    <p>Bienvenido al sistema de inventario. Usa la navegación para administrar registros y generar reportes.</p>
+</div>
+</body>
+</html>

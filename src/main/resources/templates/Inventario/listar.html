@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Inventario</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-100">
+<nav class="bg-white shadow p-4 mb-6">
+    <div class="max-w-6xl mx-auto flex justify-between">
+        <div><a href="/dashboard" class="font-bold">Inventario ITCA</a></div>
+        <div class="space-x-4">
+            <a href="/inventario">Inventario</a>
+            <a href="/movimientos">Movimientos</a>
+            <a href="/usuarios" th:if="${#authorization.expression('hasRole(''Administrador'')')}">Usuarios</a>
+            <a href="/reports/inventario">Exportar Excel</a>
+            <a href="/logout">Salir</a>
+        </div>
+    </div>
+</nav>
 
+<div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold mb-4">Inventario</h1>
+
+    <a href="/inventario/nuevo" class="bg-green-500 text-white px-4 py-2 rounded">Nuevo Registro</a>
+
+    <table class="w-full mt-4 border border-gray-300">
+        <thead class="bg-gray-200">
+        <tr>
+            <th class="border p-2">ID</th>
+            <th class="border p-2">Nombre</th>
+            <th class="border p-2">Código</th>
+            <th class="border p-2">Cantidad Actual</th>
+            <th class="border p-2">Área</th>
+            <th class="border p-2">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${listaInventario}" class="hover:bg-gray-50">
+            <td class="border p-2" th:text="${item.id}"></td>
+            <td class="border p-2" th:text="${item.nombre}"></td>
+            <td class="border p-2" th:text="${item.codigo}"></td>
+            <td class="border p-2" th:text="${item.cantidadActual}"></td>
+            <td class="border p-2" th:text="${item.areaEncargada}"></td>
+            <td class="border p-2 text-center">
+                <a th:href="@{/inventario/editar/{id}(id=${item.id})}" class="text-blue-500">Editar</a> |
+                <a th:href="@{/inventario/eliminar/{id}(id=${item.id})}" class="text-red-500"
+                   onclick="return confirm('¿Eliminar este registro?')">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
+S
