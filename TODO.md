@@ -1,0 +1,8 @@
+- [ ] Agregar manejo de excepciones en UsuarioController.guardar para capturar errores de validación y duplicados
+- [ ] Agregar validación en UsuarioService.register para verificar unicidad del nombre de usuario
+- [ ] Agregar campo de confirmación de contraseña en el formulario de usuario
+- [ ] Agregar método de edición de usuarios en UsuarioController y UsuarioService
+- [ ] Actualizar templates para incluir edición y validación
+- [ ] Verificar que el usuario admin se creó correctamente en la base de datos
+- [ ] Probar creación de usuario logueado como admin
+- [ ] Agregar logs en UsuarioController para debuggear el error 404

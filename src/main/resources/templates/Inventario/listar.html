@@ -1,56 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
     <title>Inventario</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-<nav class="bg-white shadow p-4 mb-6">
-    <div class="max-w-6xl mx-auto flex justify-between">
-        <div><a href="/dashboard" class="font-bold">Inventario ITCA</a></div>
-        <div class="space-x-4">
-            <a href="/inventario">Inventario</a>
-            <a href="/movimientos">Movimientos</a>
-            <a href="/usuarios" th:if="${#authorization.expression('hasRole(''Administrador'')')}">Usuarios</a>
-            <a href="/reports/inventario">Exportar Excel</a>
-            <a href="/logout">Salir</a>
+<body>
+<div layout:fragment="content">
+    <div class="bg-white p-8 rounded-xl shadow-2xl">
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4">
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-4 sm:mb-0">📦 Listado de Inventario</h1>
+
+            <a href="/inventario/nuevo" class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150">
+                ➕ Nuevo Registro
+            </a>
+        </div>
+
+        <div class="overflow-x-auto shadow-lg rounded-lg border border-gray-100">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">ID</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Nombre</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Código</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Stock Actual</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Área</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                <tr th:each="item : ${listaInventario}" class="hover:bg-blue-50/50 transition duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${item.id}"></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700" th:text="${item.nombre}"></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${item.codigo}"></td>
+
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-center">
+                        <span th:text="${item.cantidadActual}"
+                              th:classappend="${item.cantidadActual &lt; 5} ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'"
+                              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold">
+                            </span>
+                    </td>
+
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${item.areaEncargada}"></td>
+
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <a th:href="@{/inventario/editar/{id}(id=${item.id})}"
+                           class="text-blue-600 hover:text-blue-900 transition duration-150 mr-3">
+                            ✏️ Editar
+                        </a>
+                        <a th:href="@{/inventario/eliminar/{id}(id=${item.id})}"
+                           class="text-red-600 hover:text-red-900 transition duration-150"
+                           onclick="return confirm('⚠️ ¿Está seguro de que desea eliminar este registro de inventario?')">
+                            🗑️ Eliminar
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(listaInventario)}">
+                    <td colspan="6" class="px-6 py-6 text-center text-gray-500 text-base">
+                        No se encontraron registros de inventario. Comience añadiendo uno nuevo.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</nav>
-
-<div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold mb-4">Inventario</h1>
-
-    <a href="/inventario/nuevo" class="bg-green-500 text-white px-4 py-2 rounded">Nuevo Registro</a>
-
-    <table class="w-full mt-4 border border-gray-300">
-        <thead class="bg-gray-200">
-        <tr>
-            <th class="border p-2">ID</th>
-            <th class="border p-2">Nombre</th>
-            <th class="border p-2">Código</th>
-            <th class="border p-2">Cantidad Actual</th>
-            <th class="border p-2">Área</th>
-            <th class="border p-2">Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item : ${listaInventario}" class="hover:bg-gray-50">
-            <td class="border p-2" th:text="${item.id}"></td>
-            <td class="border p-2" th:text="${item.nombre}"></td>
-            <td class="border p-2" th:text="${item.codigo}"></td>
-            <td class="border p-2" th:text="${item.cantidadActual}"></td>
-            <td class="border p-2" th:text="${item.areaEncargada}"></td>
-            <td class="border p-2 text-center">
-                <a th:href="@{/inventario/editar/{id}(id=${item.id})}" class="text-blue-500">Editar</a> |
-                <a th:href="@{/inventario/eliminar/{id}(id=${item.id})}" class="text-red-500"
-                   onclick="return confirm('¿Eliminar este registro?')">Eliminar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 </body>
 </html>
-S

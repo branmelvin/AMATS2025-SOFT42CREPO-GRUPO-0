@@ -17,20 +17,46 @@ public class UsuarioController {
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("usuarios", usuarioService.listar());
-        return "usuarios/listar";
+        return "Usuarios/listar";
     }
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("usuario", new Usuario());
         model.addAttribute("roles", java.util.List.of("Administrador","Encargado","Docente"));
-        return "usuarios/formulario";
+        return "Usuarios/formulario";
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Usuario usuario) {
-        usuarioService.register(usuario);
-        return "redirect:/usuarios";
+    public String guardar(@RequestParam("nombre") String nombre,
+                         @RequestParam("usuario") String usuarioLogin,
+                         @RequestParam("contrasena") String contrasena,
+                         @RequestParam("confirmarContrasena") String confirmarContrasena,
+                         @RequestParam("rol") String rol,
+                         Model model) {
+        try {
+            if (!contrasena.equals(confirmarContrasena)) {
+                throw new RuntimeException("Las contraseñas no coinciden");
+            }
+
+            Usuario usuario = new Usuario();
+            usuario.setNombre(nombre);
+            usuario.setUsuario(usuarioLogin);
+            usuario.setContrasena(contrasena);
+            usuario.setRol(rol);
+
+            usuarioService.register(usuario);
+            return "redirect:/usuarios";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al guardar el usuario: " + e.getMessage());
+            Usuario usuario = new Usuario();
+            usuario.setNombre(nombre);
+            usuario.setUsuario(usuarioLogin);
+            usuario.setRol(rol);
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("roles", java.util.List.of("Administrador","Encargado","Docente"));
+            return "Usuarios/formulario";
+        }
     }
 
     @GetMapping("/eliminar/{id}")

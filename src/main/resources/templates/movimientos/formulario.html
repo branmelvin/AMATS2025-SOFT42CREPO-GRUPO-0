@@ -1,40 +1,39 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
->
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
     <title>Nuevo Movimiento</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 p-6">
-<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold mb-4">Registrar Movimiento</h1>
+<body>
+<div layout:fragment="content">
+    <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+        <h1 class="text-2xl font-bold mb-4">Registrar Movimiento</h1>
 
-    <form th:action="@{/movimientos/guardar}" th:object="${movimiento}" method="post">
-        <label class="block mb-2">Inventario:</label>
-        <select name="inventarioId" class="border p-2 w-full mb-3">
-            <option th:each="inv : ${inventarios}" th:value="${inv.id}" th:text="${inv.nombre}"></option>
-        </select>
+        <form th:action="@{/movimientos/guardar}" th:object="${movimiento}" method="post">
+            <label class="block mb-2">Inventario:</label>
+            <select name="inventarioId" class="border p-2 w-full mb-3">
+                <option th:each="inv : ${inventarios}" th:value="${inv.id}" th:text="${inv.nombre}"></option>
+            </select>
 
-        <label class="block mb-2">Tipo:</label>
-        <select th:field="*{tipo}" class="border p-2 w-full mb-3">
-            <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
-        </select>
+            <label class="block mb-2">Tipo:</label>
+            <select th:field="*{tipo}" class="border p-2 w-full mb-3">
+                <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
+            </select>
 
-        <label class="block mb-2">Cantidad:</label>
-        <input type="number" th:field="*{cantidad}" class="border p-2 w-full mb-3" required>
+            <label class="block mb-2">Cantidad:</label>
+            <input type="number" th:field="*{cantidad}" class="border p-2 w-full mb-3" required>
 
-        <label class="block mb-2">Responsable:</label>
-        <input type="text" th:field="*{responsable}" class="border p-2 w-full mb-3">
+            <label class="block mb-2">Responsable:</label>
+            <input type="text" th:field="*{responsable}" class="border p-2 w-full mb-3">
 
-        <label class="block mb-2">Observación:</label>
-        <textarea th:field="*{observacion}" class="border p-2 w-full mb-3"></textarea>
+            <label class="block mb-2">Observación:</label>
+            <textarea th:field="*{observacion}" class="border p-2 w-full mb-3"></textarea>
 
-        <div class="flex justify-between">
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
-            <a href="/movimientos" class="text-gray-600">Cancelar</a>
-        </div>
-    </form>
+            <div class="flex justify-between">
+                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
+                <a href="/movimientos" class="text-gray-600">Cancelar</a>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>

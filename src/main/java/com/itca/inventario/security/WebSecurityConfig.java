@@ -29,8 +29,13 @@ public class WebSecurityConfig {
     public UserDetailsService userDetailsService() {
         return username -> usuarioRepository.findByUsuario(username)
                 .map(u -> {
-                    String role =(u.getRol() == null ? "Encargado" : u.getRol());
-                    return new User(u.getUsuario(), u.getContrasena(), List.of(new SimpleGrantedAuthority(role)));
+                    // Agrega el prefijo ROLE_ requerido por Spring Security
+                    String role = "ROLE_" + (u.getRol() == null ? "Encargado" : u.getRol());
+                    return new User(
+                            u.getUsuario(),
+                            u.getContrasena(),
+                            List.of(new SimpleGrantedAuthority(role))
+                    );
                 })
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
@@ -51,8 +56,9 @@ public class WebSecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
+                        .permitAll()
                 )
-                .csrf().disable();
+                .csrf(csrf -> csrf.disable());
 
         return http.build();
     }

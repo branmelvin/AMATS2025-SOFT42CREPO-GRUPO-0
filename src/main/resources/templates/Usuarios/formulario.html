@@ -1,34 +1,76 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
     <title>Nuevo Usuario</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100 p-6">
-<div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold mb-4">Registrar Usuario</h1>
+<body>
+<div layout:fragment="content">
+    <div class="max-w-xl mx-auto py-8">
+        <div class="bg-white p-8 md:p-10 rounded-xl shadow-2xl border border-gray-100">
 
-    <form th:action="@{/usuarios/guardar}" th:object="${usuario}" method="post">
-        <label class="block mb-2">Nombre:</label>
-        <input type="text" th:field="*{nombre}" class="border p-2 w-full mb-3" required>
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-6 border-b pb-3">
+                ⭐ Registrar Nuevo Usuario
+            </h1>
 
-        <label class="block mb-2">Usuario:</label>
-        <input type="text" th:field="*{usuario}" class="border p-2 w-full mb-3" required>
+            <div th:if="${error}" class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                <strong>Error:</strong> <span th:text="${error}"></span>
+            </div>
 
-        <label class="block mb-2">Contraseña:</label>
-        <input type="password" th:field="*{contrasena}" class="border p-2 w-full mb-3" required>
+            <form th:action="@{/usuarios/guardar}" method="post">
 
-        <label class="block mb-2">Rol:</label>
-        <select th:field="*{rol}" class="border p-2 w-full mb-3">
-            <option th:each="r : ${roles}" th:value="${r}" th:text="${r}"></option>
-        </select>
+                <fieldset class="mb-6 p-4 border border-gray-200 rounded-lg">
+                    <legend class="text-lg font-semibold text-gray-700 px-2">Datos Personales</legend>
 
-        <div class="flex justify-between">
-            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Guardar</button>
-            <a href="/usuarios" class="text-gray-600">Cancelar</a>
+                    <div class="mb-4">
+                        <label for="nombre" class="block mb-1 font-medium text-gray-700">Nombre Completo: <span class="text-red-500">*</span></label>
+                        <input type="text" id="nombre" name="nombre" th:value="${usuario.nombre}" required
+                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
+                    </div>
+                </fieldset>
+
+                <fieldset class="mb-6 p-4 border border-gray-200 rounded-lg">
+                    <legend class="text-lg font-semibold text-gray-700 px-2">Credenciales y Permisos</legend>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="usuario" class="block mb-1 font-medium text-gray-700">Nombre de Usuario (Login): <span class="text-red-500">*</span></label>
+                            <input type="text" id="usuario" name="usuario" th:value="${usuario.usuario}" required
+                                   class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
+                        </div>
+                        <div>
+                            <label for="contrasena" class="block mb-1 font-medium text-gray-700">Contraseña: <span class="text-red-500">*</span></label>
+                            <input type="password" id="contrasena" name="contrasena" required
+                                   class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="confirmarContrasena" class="block mb-1 font-medium text-gray-700">Confirmar Contraseña: <span class="text-red-500">*</span></label>
+                        <input type="password" id="confirmarContrasena" name="confirmarContrasena" required
+                               class="block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
+                    </div>
+
+                    <div>
+                        <label for="rol" class="block mb-1 font-medium text-gray-700">Rol/Nivel de Acceso: <span class="text-red-500">*</span></label>
+                        <select id="rol" name="rol"
+                                class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
+                            <option th:each="r : ${roles}" th:value="${r}" th:text="${r}" th:selected="${usuario.rol == r}"></option>
+                        </select>
+                    </div>
+                </fieldset>
+
+                <div class="flex justify-end space-x-4 pt-4 border-t border-gray-200">
+                    <a href="/usuarios"
+                       class="inline-flex items-center justify-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition duration-150">
+                        ↩️ Cancelar
+                    </a>
+                    <button type="submit"
+                            class="inline-flex items-center justify-center px-6 py-3 border border-transparent shadow-lg text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
+                        💾 Guardar Usuario
+                    </button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>
 </body>
 </html>
