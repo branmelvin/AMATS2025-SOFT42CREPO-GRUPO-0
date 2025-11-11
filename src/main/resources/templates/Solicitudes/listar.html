@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout}">
+<head>
+    <title>Solicitudes de Materiales</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="bg-white p-8 rounded-xl shadow-2xl">
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4">
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-4 sm:mb-0">📜 Solicitudes de Materiales</h1>
+
+            <a href="/solicitudes/nueva" class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150">
+                ➕ Nueva Solicitud
+            </a>
+        </div>
+
+        <div class="overflow-x-auto shadow-lg rounded-lg border border-gray-100">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Docente</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Material</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Cantidad</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Motivo</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Fecha</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Estado</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider" sec:authorize="hasRole('Administrador')">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                <tr th:each="s : ${solicitudes}" class="hover:bg-blue-50/50 transition duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${s.usuario.nombre}"></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700" th:text="${s.inventario.nombre}"></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center font-semibold text-gray-800" th:text="${s.cantidad}"></td>
+                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" th:text="${s.motivo}"></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${#temporals.format(s.fechaSolicitud, 'dd/MM/yyyy HH:mm')}"></td>
+
+                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                        <span th:text="${s.estado.name()}"
+                              th:classappend="${s.estado.name() == 'Aprobado'} ? 'bg-green-100 text-green-800' :
+                                               (${s.estado.name() == 'Rechazado'} ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800')"
+                              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold">
+                        </span>
+                    </td>
+
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium" sec:authorize="hasRole('Administrador')">
+                        <div th:if="${s.estado.name() == 'Pendiente'}">
+                            <a th:href="@{/solicitudes/aprobar/{id}(id=${s.id})}"
+                               class="text-green-600 hover:text-green-900 transition duration-150 mr-2">
+                                ✅ Aprobar
+                            </a>
+                            <span class="text-gray-300">|</span>
+                            <a th:href="@{/solicitudes/rechazar/{id}(id=${s.id})}"
+                               class="text-red-600 hover:text-red-900 transition duration-150 ml-2"
+                               onclick="return confirm('¿Está seguro de rechazar esta solicitud?')">
+                                ❌ Rechazar
+                            </a>
+                        </div>
+                        <span th:unless="${s.estado.name() == 'Pendiente'}" class="text-gray-400 text-xs">Revisada</span>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(solicitudes)}">
+                    <td colspan="7" class="px-6 py-6 text-center text-gray-500 text-base">
+                        No se encontraron solicitudes pendientes o históricas.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

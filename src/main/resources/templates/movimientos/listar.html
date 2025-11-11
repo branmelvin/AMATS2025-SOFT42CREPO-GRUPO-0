@@ -1,56 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
 <head>
-    <meta charset="UTF-8">
     <title>Movimientos</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
-<nav class="bg-white shadow p-4 mb-6">
-    <div class="max-w-6xl mx-auto flex justify-between">
-        <div><a href="/dashboard" class="font-bold">Inventario ITCA</a></div>
-        <div class="space-x-4">
-            <a href="/inventario">Inventario</a>
-            <a href="/movimientos">Movimientos</a>
-            <a href="/usuarios" th:if="${#authorization.expression('hasRole(''Administrador'')')}">Usuarios</a>
-            <a href="/reports/movimientos">Exportar Excel</a>
-            <a href="/logout">Salir</a>
-        </div>
+<body>
+<div layout:fragment="content">
+    <div class="bg-white p-6 rounded shadow">
+        <h1 class="text-2xl font-bold mb-4">Movimientos</h1>
+
+        <a href="/movimientos/nuevo" class="bg-green-500 text-white px-4 py-2 rounded">Nuevo Movimiento</a>
+
+        <table class="w-full mt-4 border border-gray-300">
+            <thead class="bg-gray-200">
+            <tr>
+                <th class="border p-2">ID</th>
+                <th class="border p-2">Inventario</th>
+                <th class="border p-2">Tipo</th>
+                <th class="border p-2">Cantidad</th>
+                <th class="border p-2">Responsable</th>
+                <th class="border p-2">Fecha</th>
+                <th class="border p-2">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="m : ${lista}" class="hover:bg-gray-50">
+                <td class="border p-2" th:text="${m.id}"></td>
+                <td class="border p-2" th:text="${m.inventario.nombre}"></td>
+                <td class="border p-2" th:text="${m.tipo}"></td>
+                <td class="border p-2" th:text="${m.cantidad}"></td>
+                <td class="border p-2" th:text="${m.responsable}"></td>
+                <td class="border p-2" th:text="${#temporals.format(m.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                <td class="border p-2 text-center">
+                    <a th:href="@{/movimientos/eliminar/{id}(id=${m.id})}" class="text-red-500"
+                       onclick="return confirm('¿Eliminar este movimiento?')">Eliminar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-</nav>
-
-<div class="max-w-6xl mx-auto bg-white p-6 rounded shadow">
-    <h1 class="text-2xl font-bold mb-4">Movimientos</h1>
-
-    <a href="/movimientos/nuevo" class="bg-green-500 text-white px-4 py-2 rounded">Nuevo Movimiento</a>
-
-    <table class="w-full mt-4 border border-gray-300">
-        <thead class="bg-gray-200">
-        <tr>
-            <th class="border p-2">ID</th>
-            <th class="border p-2">Inventario</th>
-            <th class="border p-2">Tipo</th>
-            <th class="border p-2">Cantidad</th>
-            <th class="border p-2">Responsable</th>
-            <th class="border p-2">Fecha</th>
-            <th class="border p-2">Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="m : ${lista}" class="hover:bg-gray-50">
-            <td class="border p-2" th:text="${m.id}"></td>
-            <td class="border p-2" th:text="${m.inventario.nombre}"></td>
-            <td class="border p-2" th:text="${m.tipo}"></td>
-            <td class="border p-2" th:text="${m.cantidad}"></td>
-            <td class="border p-2" th:text="${m.responsable}"></td>
-            <td class="border p-2" th:text="${#temporals.format(m.fecha, 'dd/MM/yyyy HH:mm')}"></td>
-            <td class="border p-2 text-center">
-                <a th:href="@{/movimientos/eliminar/{id}(id=${m.id})}" class="text-red-500"
-                   onclick="return confirm('¿Eliminar este movimiento?')">Eliminar</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 </body>
 </html>

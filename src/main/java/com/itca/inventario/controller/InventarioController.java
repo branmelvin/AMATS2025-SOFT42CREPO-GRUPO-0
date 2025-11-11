@@ -1,6 +1,7 @@
 package com.itca.inventario.controller;
 
 import com.itca.inventario.entity.Inventario;
+import com.itca.inventario.repository.CategoriaRepository;
 import com.itca.inventario.service.InventarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +12,12 @@ import org.springframework.web.bind.annotation.*;
 public class InventarioController {
 
     private final InventarioService service;
+    private final CategoriaRepository categoriaRepo;
 
-    public InventarioController(InventarioService service) { this.service = service; }
+    public InventarioController(InventarioService service, CategoriaRepository categoriaRepo) {
+        this.service = service;
+        this.categoriaRepo = categoriaRepo;
+    }
 
     @GetMapping
     public String listar(Model model) {
@@ -23,6 +28,7 @@ public class InventarioController {
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("inventario", new Inventario());
+        model.addAttribute("categorias", categoriaRepo.findAll());
         return "Inventario/formulario";
     }
 
@@ -37,6 +43,7 @@ public class InventarioController {
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
         model.addAttribute("inventario", service.buscar(id).orElse(new Inventario()));
+        model.addAttribute("categorias", categoriaRepo.findAll());
         return "Inventario/formulario";
     }
 

@@ -43,4 +43,8 @@ public class Inventario {
 
     @Column(name = "ubicacion")
     private String ubicacion;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 }

@@ -2,19 +2,60 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Login - Inventario ITCA</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+    <title>Acceso Seguro - Inventario ITCA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Estilo para un fondo más dinámico (opcional) */
+        .login-bg {
+            background-color: #f3f4f6; /* Gray-100 */
+            /* Puedes añadir una imagen o gradiente aquí para más impacto */
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-<div class="bg-white p-8 rounded shadow w-96">
-    <h1 class="text-xl font-bold mb-4">Iniciar sesión</h1>
-    <form action="/login" method="post">
-        <label class="block mb-2">Usuario</label>
-        <input name="username" required class="w-full border p-2 mb-3">
-        <label class="block mb-2">Contraseña</label>
-        <input type="password" name="password" required class="w-full border p-2 mb-3">
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded">Entrar</button>
+<body class="login-bg flex items-center justify-center h-screen">
+
+<div class="max-w-md w-full bg-white p-10 rounded-xl shadow-2xl border border-gray-100 transform hover:scale-[1.01] transition duration-300">
+
+    <div class="text-center mb-8">
+        <svg class="mx-auto h-12 w-auto text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10M10 5a2 2 0 012-2h2a2 2 0 012 2v10a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM18 7h4m-2 2v6"/>
+        </svg>
+        <h2 class="mt-4 text-3xl font-extrabold text-gray-900">
+            Iniciar Sesión
+        </h2>
+        <p class="mt-2 text-sm text-gray-500">
+            Inventario <span class="font-semibold text-blue-600">ITCA</span>
+        </p>
+    </div>
+
+    <form action="/login" method="post" class="space-y-6">
+
+        <div>
+            <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
+            <input id="username" name="username" type="text" autocomplete="username" required
+                   class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
+        </div>
+
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+            <input id="password" type="password" name="password" autocomplete="current-password" required
+                   class="appearance-none block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition duration-150 sm:text-sm">
+        </div>
+
+        <div>
+            <button type="submit"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
+                Acceder al Sistema
+            </button>
+        </div>
     </form>
+
+    <div class="mt-6 text-center">
+        <a href="#" class="font-medium text-sm text-blue-600 hover:text-blue-500">
+            ¿Olvidaste tu contraseña?
+        </a>
+    </div>
+
 </div>
 </body>
 </html>

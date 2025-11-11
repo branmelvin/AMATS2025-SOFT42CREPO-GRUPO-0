@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Categorías</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="bg-white p-8 rounded-xl shadow-2xl">
+
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4">
+            <h1 class="text-3xl font-extrabold text-gray-800 mb-4 sm:mb-0">📂 Categorías de Materiales</h1>
+
+            <a href="/categorias/nueva" class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150">
+                ➕ Nueva Categoría
+            </a>
+        </div>
+
+        <div class="overflow-x-auto shadow-lg rounded-lg border border-gray-100">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">ID</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Nombre</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Descripción</th>
+                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                <tr th:each="categoria : ${categorias}" class="hover:bg-blue-50/50 transition duration-150">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${categoria.id}"></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700" th:text="${categoria.nombre}"></td>
+                    <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" th:text="${categoria.descripcion}"></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
+                        <a th:href="@{/categorias/editar/{id}(id=${categoria.id})}"
+                           class="text-blue-600 hover:text-blue-900 transition duration-150 mr-3">
+                            ✏️ Editar
+                        </a>
+                        <a th:href="@{/categorias/eliminar/{id}(id=${categoria.id})}"
+                           class="text-red-600 hover:text-red-900 transition duration-150"
+                           onclick="return confirm('⚠️ ¿Está seguro de que desea eliminar esta categoría?')">
+                            🗑️ Eliminar
+                        </a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(categorias)}">
+                    <td colspan="4" class="px-6 py-6 text-center text-gray-500 text-base">
+                        No se encontraron categorías. Comience añadiendo una nueva.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

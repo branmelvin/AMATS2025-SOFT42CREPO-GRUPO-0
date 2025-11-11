@@ -17,6 +17,9 @@ public class UsuarioService {
     }
 
     public Usuario register(Usuario u) {
+        if (repo.findByUsuario(u.getUsuario()).isPresent()) {
+            throw new RuntimeException("El nombre de usuario ya existe");
+        }
         u.setContrasena(encoder.encode(u.getContrasena()));
         return repo.save(u);
     }

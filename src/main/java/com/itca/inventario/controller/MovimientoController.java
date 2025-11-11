@@ -47,8 +47,12 @@ public class MovimientoController {
             if ("Entrada".equalsIgnoreCase(movimiento.getTipo())) {
                 inv.setCantidadActual(actual + movimiento.getCantidad());
             } else if ("Salida".equalsIgnoreCase(movimiento.getTipo())) {
-                inv.setCantidadActual(actual - movimiento.getCantidad());
-                if (inv.getCantidadActual() < 0) inv.setCantidadActual(0);
+                int nuevaCantidad = actual - movimiento.getCantidad();
+                if (nuevaCantidad < 0) {
+                    // Evitar stock negativo - ajustar a 0
+                    nuevaCantidad = 0;
+                }
+                inv.setCantidadActual(nuevaCantidad);
             } else if ("Ajuste".equalsIgnoreCase(movimiento.getTipo())) {
                 inv.setCantidadActual(movimiento.getCantidad());
             }
