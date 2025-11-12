@@ -199,7 +199,15 @@
 
                 <fieldset class="mb-6 p-4 border border-gray-200 rounded-lg">
                     <legend class="text-lg font-semibold text-gray-700 px-2">Clasificación y Ubicación</legend>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label for="categoria" class="block mb-1 font-medium text-gray-600">Categoría: <span class="text-red-500">*</span></label>
+                            <select id="categoria" th:field="*{categoria}"
+                                    class="border border-gray-300 p-3 w-full rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150" required>
+                                <option value="">Seleccionar Categoría</option>
+                                <option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
+                            </select>
+                        </div>
                         <div>
                             <label for="tipo" class="block mb-1 font-medium text-gray-600">Tipo:</label>
                             <select id="tipo" th:field="*{tipo}"
@@ -217,50 +225,16 @@
                             </select>
                         </div>
                     </div>
-                </div>
-            </fieldset>
+                </fieldset>
 
-            <fieldset>
-                <legend>Cantidades y Responsabilidad</legend>
-                <div class="form-grid">
-                    <div>
-                        <label for="cantidadTotal">Cantidad Total Inicial:</label>
-                        <input type="number" id="cantidadTotal" th:field="*{cantidadTotal}" min="0">
-                        <div th:if="${#fields.hasErrors('cantidadTotal')}" th:errors="*{cantidadTotal}" class="text-error"></div>
+                <fieldset class="mb-6 p-4 border border-gray-200 rounded-lg">
+                    <legend class="text-lg font-semibold text-gray-700 px-2">Observaciones</legend>
+                    <div class="mb-4">
+                        <label for="observacion" class="block mb-1 font-medium text-gray-600">Observaciones:</label>
+                        <textarea id="observacion" th:field="*{observacion}" rows="3"
+                                  class="border border-gray-300 p-3 w-full rounded-lg focus:ring-blue-500 focus:border-blue-500 transition duration-150"></textarea>
                     </div>
-                    <div>
-                        <label for="cantidadActual">Cantidad Actual:</label>
-                        <input type="number" id="cantidadActual" th:field="*{cantidadActual}" min="0">
-                        <div th:if="${#fields.hasErrors('cantidadActual')}" th:errors="*{cantidadActual}" class="text-error"></div>
-                    </div>
-                    <div>
-                        <label for="areaEncargada">Área Encargada:</label>
-                        <input type="text" id="areaEncargada" th:field="*{areaEncargada}">
-                        <div th:if="${#fields.hasErrors('areaEncargada')}" th:errors="*{areaEncargada}" class="text-error"></div>
-                    </div>
-                    <div>
-                        <label for="tipo">Tipo (Categoría):</label>
-                        <input type="text" id="tipo" th:field="*{tipo}">
-                        <div th:if="${#fields.hasErrors('tipo')}" th:errors="*{tipo}" class="text-error"></div>
-                    </div>
-                </div>
-            </fieldset>
-
-            <fieldset>
-                <legend>Ubicación y Observación</legend>
-                <div class="form-grid">
-                    <div>
-                        <label for="ubicacion">Ubicación Física:</label>
-                        <input type="text" id="ubicacion" th:field="*{ubicacion}">
-                        <div th:if="${#fields.hasErrors('ubicacion')}" th:errors="*{ubicacion}" class="text-error"></div>
-                    </div>
-                    <div>
-                        <label for="observacion">Observaciones:</label>
-                        <textarea id="observacion" th:field="*{observacion}" rows="3"></textarea>
-                        <div th:if="${#fields.hasErrors('observacion')}" th:errors="*{observacion}" class="text-error"></div>
-                    </div>
-                </div>
-            </fieldset>
+                </fieldset>
 
             <div class="buttons">
                 <a href="/inventario" class="button btn-cancel">↩️ Cancelar</a>

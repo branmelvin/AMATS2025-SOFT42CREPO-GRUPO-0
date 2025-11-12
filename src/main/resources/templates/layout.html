@@ -141,13 +141,13 @@
 
             <!-- Menú principal -->
             <div class="flex items-center space-x-6 flex-wrap">
-                <a href="/inventario" class="nav-link text-gray-700 font-medium">📦 Inventario</a>
+                <a href="/inventario" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="nav-link text-gray-700 font-medium">📦 Inventario</a>
                 <a href="/solicitudes" class="nav-link text-gray-700 font-medium">📝 Solicitudes</a>
-                <a href="/movimientos" class="nav-link text-gray-700 font-medium">🔄 Movimientos</a>
-                <a href="/categorias" class="nav-link text-gray-700 font-medium">🏷️ Categorías</a>
-                <a href="/tipos" class="nav-link text-gray-700 font-medium">🏷️ Tipos</a>
-                <a href="/areas-encargadas" class="nav-link text-gray-700 font-medium">🏢 Áreas Encargadas</a>
-                <a href="/ubicaciones" class="nav-link text-gray-700 font-medium">📍 Ubicaciones</a>
+                <a href="/movimientos" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="nav-link text-gray-700 font-medium">🔄 Movimientos</a>
+                <a href="/categorias" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="nav-link text-gray-700 font-medium">🏷️ Categorías</a>
+                <a href="/tipos" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="nav-link text-gray-700 font-medium">🏷️ Tipos</a>
+                <a href="/areas-encargadas" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="nav-link text-gray-700 font-medium">🏢 Áreas Encargadas</a>
+                <a href="/ubicaciones" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="nav-link text-gray-700 font-medium">📍 Ubicaciones</a>
 
                 <a href="/usuarios"
                    th:if="${#authorization.expression('hasRole(''Administrador'')')}"
@@ -155,7 +155,7 @@
                     👤 Usuarios
                 </a>
 
-                <div class="group relative">
+                <div class="group relative" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}">
                     <button class="nav-link flex items-center text-gray-700 font-medium">
                         📊 <span class="ml-1">Reportes</span>
                         <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -194,16 +194,16 @@
     <!-- Menú móvil -->
     <div id="mobile-menu" class="md:hidden hidden border-t border-gray-200 bg-white shadow-sm">
         <div class="px-4 py-4 space-y-2">
-            <a href="/inventario" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📦 Inventario</a>
+            <a href="/inventario" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📦 Inventario</a>
             <a href="/solicitudes" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📝 Solicitudes</a>
-            <a href="/movimientos" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🔄 Movimientos</a>
-            <a href="/categorias" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏷️ Categorías</a>
-            <a href="/tipos" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏷️ Tipos</a>
-            <a href="/areas-encargadas" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏢 Áreas Encargadas</a>
-            <a href="/ubicaciones" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📍 Ubicaciones</a>
+            <a href="/movimientos" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🔄 Movimientos</a>
+            <a href="/categorias" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏷️ Categorías</a>
+            <a href="/tipos" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏷️ Tipos</a>
+            <a href="/areas-encargadas" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏢 Áreas Encargadas</a>
+            <a href="/ubicaciones" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📍 Ubicaciones</a>
             <a href="/usuarios" th:if="${#authorization.expression('hasRole(''Administrador'')')}"
                class="block px-3 py-2 rounded-md text-base text-rose-600 hover:bg-gray-100">👤 Administración</a>
-            <div class="pt-2 border-t border-gray-100">
+            <div class="pt-2 border-t border-gray-100" th:if="${#authorization.expression('hasAnyRole(''Administrador'', ''Encargado'')')}">
                 <p class="px-3 py-2 text-sm font-semibold text-gray-500">📊 Reportes</p>
                 <a href="/reports/inventario" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">Exportar Inventario</a>
                 <a href="/reports/movimientos" class="block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">Exportar Movimientos</a>

@@ -45,6 +45,8 @@ public class Inventario {
 
     @Column(name = "cantidad_actual")
     @Min(value = 0, message = "La cantidad actual no puede ser negativa")
+    private Integer cantidadActual = 0;
+
     @AssertTrue(message = "La cantidad actual no puede ser mayor que la cantidad total")
     private boolean isCantidadValida() {
         if (cantidadTotal == null || cantidadActual == null) return true;

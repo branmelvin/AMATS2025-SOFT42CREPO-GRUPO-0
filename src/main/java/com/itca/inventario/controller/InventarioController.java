@@ -6,6 +6,7 @@ import com.itca.inventario.repository.TipoRepository;
 import com.itca.inventario.repository.AreaEncargadaRepository;
 import com.itca.inventario.repository.UbicacionRepository;
 import com.itca.inventario.service.InventarioService;
+import jakarta.validation.Valid;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,9 +55,12 @@ public class InventarioController {
     public String guardar(@Valid @ModelAttribute("inventario") Inventario inv,
                           BindingResult result,
                           Model model) {
-        // Si hay errores de validación, volver al formulario
+        // Si hay errores de validación, volver al formulario con todas las listas
         if (result.hasErrors()) {
             model.addAttribute("categorias", categoriaRepo.findAll());
+            model.addAttribute("tipos", tipoRepo.findAll());
+            model.addAttribute("areasEncargadas", areaEncargadaRepo.findAll());
+            model.addAttribute("ubicaciones", ubicacionRepo.findAll());
             return "Inventario/formulario";
         }
 

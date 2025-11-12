@@ -181,8 +181,11 @@
 
     <div class="actions">
         <h2>Acciones Rápidas</h2>
-        <a href="/inventario/nuevo" sec:authorize="hasRole('Administrador')" class="green">Registrar Ítem</a>
+        <a href="/inventario/nuevo" sec:authorize="hasAnyRole('Administrador', 'Encargado')" class="green">Registrar Ítem</a>
         <a href="/solicitudes/nueva" class="blue">Nueva Solicitud</a>
+        <a href="/solicitudes" class="purple">Ver Solicitudes</a>
+        <a href="/inventario" sec:authorize="hasAnyRole('Administrador', 'Encargado')" class="rose">Ver Inventario</a>
+        <a href="/reportes" sec:authorize="hasAnyRole('Administrador', 'Encargado')" class="gray">Reportes</a>
     </div>
 
     <div class="section">
