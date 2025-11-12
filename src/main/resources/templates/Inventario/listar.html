@@ -1,68 +1,228 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
     <title>Inventario</title>
+    <style>
+        /* ====== PALETA ITCA-FEPADE ======
+           Rojo institucional: #C8102E
+           Azul oscuro: #00205B
+           Gris claro: #F5F6FA
+           Blanco: #FFFFFF
+        ==================================*/
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #F5F6FA;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2D2D2D;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Agrega espacio inferior y transición al cargar */
+        body {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #00205B;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        a {
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* ====== CONTENEDOR PRINCIPAL ====== */
+        .bg-white {
+            background-color: #FFFFFF;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 6px 16px rgba(0, 32, 91, 0.15);
+            margin: 40px auto;
+            width: 95%;
+            max-width: 1200px;
+        }
+
+        /* ====== BOTÓN NUEVO REGISTRO ====== */
+        a[href="/inventario/nuevo"] {
+            background-color: #C8102E;
+            color: #FFFFFF;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 12px 24px;
+            box-shadow: 0 4px 8px rgba(200, 16, 46, 0.25);
+        }
+
+        a[href="/inventario/nuevo"]:hover {
+            background-color: #A60D26;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(200, 16, 46, 0.35);
+        }
+
+        /* ====== TABLA ====== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #FFFFFF;
+        }
+
+        thead {
+            background-color: #00205B;
+            color: #FFFFFF;
+        }
+
+        th {
+            font-size: 13px;
+            text-transform: uppercase;
+            padding: 14px 16px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #E4E7EB;
+        }
+
+        tbody tr:hover {
+            background-color: #F1F4FF;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        /* ====== ETIQUETAS DE STOCK ====== */
+        .bg-red-100 {
+            background-color: #FDE8E8;
+            color: #C8102E;
+        }
+
+        .bg-green-100 {
+            background-color: #E6F4EA;
+            color: #007B33;
+        }
+
+        .inline-flex {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        /* ====== ENLACES DE ACCIÓN ====== */
+        .text-blue-600 {
+            color: #00205B;
+            font-weight: 600;
+        }
+
+        .text-blue-600:hover {
+            color: #003D99;
+            text-decoration: underline;
+        }
+
+        .text-red-600 {
+            color: #C8102E;
+            font-weight: 600;
+        }
+
+        .text-red-600:hover {
+            color: #A60D26;
+            text-decoration: underline;
+        }
+
+        /* ====== MENSAJE SIN REGISTROS ====== */
+        td[colspan="6"] {
+            font-style: italic;
+            color: #6B7280;
+            background-color: #F9FAFB;
+        }
+
+        /* ====== EFECTOS Y DETALLES ====== */
+        .rounded-xl {
+            border-radius: 20px;
+        }
+
+        .shadow-2xl {
+            box-shadow: 0 12px 25px rgba(0, 32, 91, 0.15);
+        }
+
+        .border-b {
+            border-bottom: 3px solid #00205B;
+        }
+
+        /* ====== PIE INVISIBLE PARA EVITAR CORTE ====== */
+        footer {
+            height: 50px;
+            background: transparent;
+        }
+    </style>
 </head>
 <body>
 <div layout:fragment="content">
-    <div class="bg-white p-8 rounded-xl shadow-2xl">
+    <div class="bg-white rounded-xl shadow-2xl">
 
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4">
             <h1 class="text-3xl font-extrabold text-gray-800 mb-4 sm:mb-0">📦 Listado de Inventario</h1>
 
-            <a href="/inventario/nuevo" class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150">
+            <a href="/inventario/nuevo" class="inline-flex items-center">
                 ➕ Nuevo Registro
             </a>
         </div>
 
         <div class="overflow-x-auto shadow-lg rounded-lg border border-gray-100">
             <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
+                <thead>
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">ID</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Nombre</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Código</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Stock Actual</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Área</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Acciones</th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Código</th>
+                    <th class="text-center">Stock Actual</th>
+                    <th>Área</th>
+                    <th class="text-center">Acciones</th>
                 </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                <tr th:each="item : ${listaInventario}" class="hover:bg-blue-50/50 transition duration-150">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${item.id}"></td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700" th:text="${item.nombre}"></td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${item.codigo}"></td>
-
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-center">
+                <tbody>
+                <tr th:each="item : ${listaInventario}">
+                    <td th:text="${item.id}"></td>
+                    <td th:text="${item.nombre}"></td>
+                    <td th:text="${item.codigo}"></td>
+                    <td class="text-center">
                         <span th:text="${item.cantidadActual}"
-                              th:classappend="${item.cantidadActual &lt; 5} ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'"
-                              class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold">
-                            </span>
+                              th:classappend="${item.cantidadActual < 5} ? 'bg-red-100' : 'bg-green-100'"
+                              class="inline-flex">
+                        </span>
                     </td>
-
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${item.areaEncargada}"></td>
-
-                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                        <a th:href="@{/inventario/editar/{id}(id=${item.id})}"
-                           class="text-blue-600 hover:text-blue-900 transition duration-150 mr-3">
-                            ✏️ Editar
-                        </a>
-                        <a th:href="@{/inventario/eliminar/{id}(id=${item.id})}"
-                           class="text-red-600 hover:text-red-900 transition duration-150"
-                           onclick="return confirm('⚠️ ¿Está seguro de que desea eliminar este registro de inventario?')">
+                    <td th:text="${item.areaEncargada}"></td>
+                    <td class="text-center">
+                        <a th:href="@{/inventario/editar/{id}(id=${item.id})}" class="text-blue-600 mr-3">✏️ Editar</a>
+                        <a th:href="@{/inventario/eliminar/{id}(id=${item.id})}" class="text-red-600"
+                           onclick="return confirm('⚠️ ¿Está seguro de eliminar este registro de inventario?')">
                             🗑️ Eliminar
                         </a>
                     </td>
                 </tr>
                 <tr th:if="${#lists.isEmpty(listaInventario)}">
-                    <td colspan="6" class="px-6 py-6 text-center text-gray-500 text-base">
-                        No se encontraron registros de inventario. Comience añadiendo uno nuevo.
-                    </td>
+                    <td colspan="6" class="text-center">No se encontraron registros de inventario. Comience añadiendo uno nuevo.</td>
                 </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<footer></footer>
 </body>
 </html>
