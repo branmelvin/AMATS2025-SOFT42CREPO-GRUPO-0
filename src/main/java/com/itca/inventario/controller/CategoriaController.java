@@ -2,8 +2,10 @@ package com.itca.inventario.controller;
 
 import com.itca.inventario.entity.Categoria;
 import com.itca.inventario.repository.CategoriaRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -29,9 +31,20 @@ public class CategoriaController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Categoria categoria) {
-        categoriaRepo.save(categoria);
-        return "redirect:/categorias";
+    public String guardar(@Valid @ModelAttribute Categoria categoria, BindingResult result, Model model) {
+        // Si hay errores de validación, volver al formulario
+        if (result.hasErrors()) {
+            return "categorias/formulario";
+        }
+        
+        try {
+            categoriaRepo.save(categoria);
+            return "redirect:/categorias";
+        } catch (Exception e) {
+            // Manejar errores de base de datos (ej: nombre duplicado)
+            model.addAttribute("error", "Error al guardar la categoría: " + e.getMessage());
+            return "categorias/formulario";
+        }
     }
 
     @GetMapping("/editar/{id}")
