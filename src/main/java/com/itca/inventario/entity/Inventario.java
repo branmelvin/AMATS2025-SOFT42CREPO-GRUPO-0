@@ -51,13 +51,13 @@ public class Inventario {
         return cantidadActual <= cantidadTotal;
     }
 
-    /* ====== Validaciones de texto ====== */
-    @Size(max = 50, message = "El tipo no debe exceder los 50 caracteres")
-    private String tipo;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_id")
+    private Tipo tipo;
 
-    @Column(name = "area_encargada")
-    @NotBlank(message = "Debe ingresar el área encargada")
-    private String areaEncargada;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "area_encargada_id")
+    private AreaEncargada areaEncargada;
 
     /* ====== Validación de fecha ====== */
     @Column(name = "fecha_vencimiento")
@@ -69,10 +69,9 @@ public class Inventario {
     @Size(max = 300, message = "La observación no debe superar los 300 caracteres")
     private String observacion;
 
-    @Column(name = "ubicacion")
-    @NotBlank(message = "Debe ingresar una ubicación")
-    @Pattern(regexp = "^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\\s#.,-]+$", message = "La ubicación contiene caracteres no válidos")
-    private String ubicacion;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ubicacion_id")
+    private Ubicacion ubicacion;
 
     /* ====== Relación con categoría ====== */
     @ManyToOne(fetch = FetchType.LAZY)

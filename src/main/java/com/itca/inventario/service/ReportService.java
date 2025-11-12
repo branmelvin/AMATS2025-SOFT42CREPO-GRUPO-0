@@ -29,9 +29,9 @@ public class ReportService {
                 row.createCell(2).setCellValue(inv.getCodigo() == null ? "" : inv.getCodigo());
                 row.createCell(3).setCellValue(inv.getCantidadActual() == null ? 0 : inv.getCantidadActual());
                 row.createCell(4).setCellValue(inv.getCantidadTotal() == null ? 0 : inv.getCantidadTotal());
-                row.createCell(5).setCellValue(inv.getAreaEncargada() == null ? "" : inv.getAreaEncargada());
-                row.createCell(6).setCellValue(inv.getTipo() == null ? "" : inv.getTipo());
-                row.createCell(7).setCellValue(inv.getUbicacion() == null ? "" : inv.getUbicacion());
+                row.createCell(5).setCellValue(inv.getAreaEncargada() == null ? "" : inv.getAreaEncargada().getNombre());
+                row.createCell(6).setCellValue(inv.getTipo() == null ? "" : inv.getTipo().getNombre());
+                row.createCell(7).setCellValue(inv.getUbicacion() == null ? "" : inv.getUbicacion().getNombre());
                 row.createCell(8).setCellValue(inv.getObservacion() == null ? "" : inv.getObservacion());
             }
 
