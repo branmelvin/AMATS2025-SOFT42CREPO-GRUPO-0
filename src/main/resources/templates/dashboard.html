@@ -5,137 +5,229 @@
       layout:decorate="~{layout}">
 <head>
     <title>Panel Principal - Inventario ITCA</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f6fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #2563eb;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        p {
+            color: #555;
+        }
+
+        .header {
+            background: #fff;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .card p:first-child {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .card span {
+            display: block;
+            font-size: 1.6em;
+            font-weight: bold;
+            margin-top: 8px;
+            color: #2563eb;
+        }
+
+        .actions {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .actions a {
+            display: inline-block;
+            margin: 8px 10px 8px 0;
+            padding: 10px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #fff;
+            font-size: 0.95em;
+            transition: background 0.3s;
+        }
+
+        .green { background-color: #16a34a; }
+        .green:hover { background-color: #15803d; }
+
+        .blue { background-color: #2563eb; }
+        .blue:hover { background-color: #1e3a8a; }
+
+        .purple { background-color: #7e22ce; }
+        .purple:hover { background-color: #5b21b6; }
+
+        .rose { background-color: #e11d48; }
+        .rose:hover { background-color: #be123c; }
+
+        .gray { background-color: #6b7280; }
+        .gray:hover { background-color: #4b5563; }
+
+        .section {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 6px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .user-info {
+            text-align: right;
+            font-size: 0.9em;
+            color: #444;
+        }
+    </style>
 </head>
 
 <body>
-<div layout:fragment="content">
+<div class="container" layout:fragment="content">
 
-    <!-- Encabezado -->
-    <div class="flex justify-between items-center mb-8">
+    <div class="header">
         <div>
-            <h1 class="text-4xl font-extrabold text-gray-900">Panel Principal</h1>
-            <p class="mt-2 text-gray-600 text-lg">Bienvenido al sistema de inventario ITCA.</p>
+            <h1>Panel Principal</h1>
+            <p>Bienvenido al sistema de inventario ITCA 👋</p>
         </div>
-        <div>
-            <span class="text-sm text-gray-500" sec:authentication="name"></span>
-        </div>
-    </div>
-
-    <!-- Tarjetas de Resumen -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-
-        <!-- Total de Ítems -->
-        <div class="bg-white rounded-2xl shadow hover:shadow-lg p-6 border border-gray-100 transition transform hover:-translate-y-1">
-            <div class="flex items-center">
-                <div class="bg-blue-100 p-3 rounded-full text-blue-600">
-                    <i class="fas fa-boxes text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-gray-500 text-sm font-medium">Ítems Únicos</p>
-                    <p class="text-3xl font-bold text-gray-900" th:text="${totalItems} ?: 'N/A'"></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Alertas de bajo stock -->
-        <div th:with="alertColor = ${lowStockAlerts > 0 ? 'text-red-600' : 'text-green-600'}"
-             class="bg-white rounded-2xl shadow hover:shadow-lg p-6 border border-gray-100 transition transform hover:-translate-y-1">
-            <div class="flex items-center">
-                <div th:class="${lowStockAlerts > 0 ? 'bg-red-100 text-red-600' : 'bg-green-100 text-green-600'} + ' p-3 rounded-full'">
-                    <i class="fas fa-exclamation-triangle text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-gray-500 text-sm font-medium">Stock Bajo</p>
-                    <p th:class="'text-3xl font-bold ' + ${alertColor}" th:text="${lowStockAlerts} ?: '0'"></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Solicitudes Pendientes -->
-        <div class="bg-white rounded-2xl shadow hover:shadow-lg p-6 border border-gray-100 transition transform hover:-translate-y-1">
-            <div class="flex items-center">
-                <div class="bg-yellow-100 p-3 rounded-full text-yellow-600">
-                    <i class="fas fa-file-signature text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-gray-500 text-sm font-medium">Solicitudes Pendientes</p>
-                    <p class="text-3xl font-bold text-gray-900" th:text="${pendingSolicitudes} ?: '0'"></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Movimientos Recientes -->
-        <div class="bg-white rounded-2xl shadow hover:shadow-lg p-6 border border-gray-100 transition transform hover:-translate-y-1">
-            <div class="flex items-center">
-                <div class="bg-indigo-100 p-3 rounded-full text-indigo-600">
-                    <i class="fas fa-exchange-alt text-xl"></i>
-                </div>
-                <div class="ml-4">
-                    <p class="text-gray-500 text-sm font-medium">Movimientos Recientes</p>
-                    <p class="text-3xl font-bold text-gray-900" th:text="${recentMovements} ?: 'N/A'"></p>
-                </div>
-            </div>
+        <div class="user-info">
+            <p>Usuario:</p>
+            <strong sec:authentication="name"></strong>
         </div>
     </div>
 
-    <!-- Acciones Rápidas -->
-    <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100 mb-10">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">Acciones Rápidas</h2>
-        <div class="flex flex-wrap gap-4">
-            <a href="/inventario/nuevo"
-               class="inline-flex items-center px-6 py-3 text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-md transition">
-                <i class="fas fa-plus-circle mr-2"></i> Registrar Nuevo Ítem
-            </a>
-
-            <a href="/solicitudes/nueva"
-               class="inline-flex items-center px-6 py-3 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md transition">
-                <i class="fas fa-paper-plane mr-2"></i> Crear Nueva Solicitud
-            </a>
-
-            <a href="/movimientos"
-               class="inline-flex items-center px-6 py-3 text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-md transition">
-                <i class="fas fa-history mr-2"></i> Ver Movimientos
-            </a>
-
-            <a href="/reports/inventario"
-               class="inline-flex items-center px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg shadow-md transition">
-                <i class="fas fa-file-export mr-2"></i> Exportar Inventario
-            </a>
-
-            <!-- Opciones solo visibles para Administrador -->
-            <a href="/usuarios"
-               sec:authorize="hasRole('Administrador')"
-               class="inline-flex items-center px-6 py-3 text-white bg-rose-600 hover:bg-rose-700 rounded-lg shadow-md transition">
-                <i class="fas fa-user-shield mr-2"></i> Gestión de Usuarios
-            </a>
-
-            <a href="/categorias"
-               sec:authorize="hasRole('Administrador')"
-               class="inline-flex items-center px-6 py-3 text-white bg-purple-600 hover:bg-purple-700 rounded-lg shadow-md transition">
-                <i class="fas fa-tags mr-2"></i> Categorías
-            </a>
-
+    <h2>Resumen</h2>
+    <div class="summary">
+        <div class="card">
+            <p>Ítems Únicos</p>
+            <span th:text="${totalItems} ?: 'N/A'"></span>
+        </div>
+        <div class="card">
+            <p>Stock Bajo</p>
+            <span th:text="${lowStockAlerts} ?: '0'"></span>
+        </div>
+        <div class="card">
+            <p>Solicitudes Pendientes</p>
+            <span th:text="${pendingSolicitudes} ?: '0'"></span>
+        </div>
+        <div class="card">
+            <p>Movimientos Recientes</p>
+            <span th:text="${recentMovements} ?: 'N/A'"></span>
         </div>
     </div>
 
-    <!-- Secciones inferiores -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Actividad Reciente</h2>
-            <p class="text-gray-500">Aquí podrás integrar un gráfico de movimientos o las últimas acciones del sistema.</p>
-        </div>
-
-        <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Últimos Accesos</h2>
-            <ul class="space-y-2 text-sm text-gray-700">
-                <li>Administrador (Hoy, 10:30 AM)</li>
-                <li>Docente Juan Pérez (Ayer, 4:15 PM)</li>
-            </ul>
-        </div>
+    <div class="actions">
+        <h2>Acciones Rápidas</h2>
+        <a href="/inventario" sec:authorize="hasRole('Administrador')"class="blue">Listado de Inventario</a>
+        <a href="/inventario/nuevo" sec:authorize="hasRole('Administrador')" class="green">Registrar Ítem</a>
+        <a href="/solicitudes/nueva" class="blue">Nueva Solicitud</a>
+        <a href="/movimientos" class="purple">Ver Movimientos</a>
+        <a href="/reports/inventario" sec:authorize="hasRole('Administrador')"class="gray">Exportar Inventario</a>
+        <a href="/usuarios" sec:authorize="hasRole('Administrador')" class="rose">Usuarios</a>
+        <a href="/categorias" sec:authorize="hasRole('Administrador')" class="purple">Categorías</a>
     </div>
+
+    <div class="section">
+        <h2>Actividad Reciente</h2>
+        <p>Aquí podrás visualizar los movimientos más recientes o un gráfico de estadísticas del sistema.</p>
+    </div>
+
+    <div class="section">
+        <h2>Últimos Accesos</h2>
+        <ul>
+            <li>Administrador (Hoy, 10:30 AM)</li>
+            <li>Docente Juan Pérez (Ayer, 4:15 PM)</li>
+        </ul>
+    </div>
+
 </div>
 
-<!-- FontAwesome -->
 <script src="https://kit.fontawesome.com/a2e0e9b0c2.js" crossorigin="anonymous"></script>
+
+<script>
+    // Mostrar notificaciones de bajo stock para administradores
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verificar si hay items con bajo stock (solo para admins)
+        const lowStockItems = /*[[${lowStockItems}]]*/ [];
+        if (lowStockItems && lowStockItems.length > 0) {
+            setTimeout(() => {
+                lowStockItems.forEach(item => {
+                    Toastify({
+                        text: `⚠️ Bajo stock: ${item.nombre} (${item.cantidadActual || 0} unidades)`,
+                        duration: 5000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                        stopOnFocus: true,
+                        close: true
+                    }).showToast();
+                });
+            }, 1000); // Retraso de 1 segundo para que la página cargue
+        }
+    });
+</script>
 </body>
 </html>
