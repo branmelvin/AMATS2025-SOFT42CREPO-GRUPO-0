@@ -206,5 +206,28 @@
 </div>
 
 <script src="https://kit.fontawesome.com/a2e0e9b0c2.js" crossorigin="anonymous"></script>
+
+<script>
+    // Mostrar notificaciones de bajo stock para administradores
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verificar si hay items con bajo stock (solo para admins)
+        const lowStockItems = /*[[${lowStockItems}]]*/ [];
+        if (lowStockItems && lowStockItems.length > 0) {
+            setTimeout(() => {
+                lowStockItems.forEach(item => {
+                    Toastify({
+                        text: `⚠️ Bajo stock: ${item.nombre} (${item.cantidadActual || 0} unidades)`,
+                        duration: 5000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                        stopOnFocus: true,
+                        close: true
+                    }).showToast();
+                });
+            }, 1000); // Retraso de 1 segundo para que la página cargue
+        }
+    });
+</script>
 </body>
 </html>
