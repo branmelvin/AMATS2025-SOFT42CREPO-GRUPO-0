@@ -1,21 +1,27 @@
-# Mejora de Navegación e Interfaz del Proyecto
+# Plan para Implementar Notificaciones Toast de Bajo Stock
 
-## Plan Aprobado
-- Agregar breadcrumbs para navegación jerárquica.
-- Mejorar el menú móvil con animaciones.
-- Agregar indicadores de página activa en la navegación.
-- Implementar navegación por teclado.
-- Agregar un botón de "volver atrás" en páginas relevantes.
-- Mejorar la accesibilidad con ARIA labels.
-- Optimizar el diseño responsivo.
-- Mejorar la interfaz visual para un mejor movimiento por la app.
+## Información Recopilada
+- El dashboard se maneja en `HomeController.java` con el endpoint `/dashboard`.
+- `InventarioService` tiene el método `obtenerBajoStock()` que devuelve items con cantidad actual < 5.
+- Las notificaciones deben mostrarse solo al administrador al iniciar sesión (dashboard).
+- Se usará Toastify.js para las notificaciones toast.
 
-## Pasos a Completar
-- [x] Agregar breadcrumbs al layout.html para navegación jerárquica.
-- [x] Mejorar el menú móvil en layout.html con animaciones suaves.
-- [x] Agregar indicadores de página activa en el menú de navegación.
-- [x] Implementar navegación por teclado en el layout.html (JavaScript).
-- [x] Agregar botón de "volver atrás" en formularios y páginas de detalle.
-- [x] Mejorar accesibilidad con ARIA labels en navegación.
-- [x] Optimizar diseño responsivo para mejor experiencia móvil.
-- [x] Mejorar interfaz visual: agregar más iconos, estilos y transiciones.
+## Plan de Implementación
+1. **Agregar Toastify.js al layout.html**: Incluir el CDN de Toastify.js en la sección de scripts para que esté disponible globalmente.
+2. **Modificar HomeController.java**: 
+   - Inyectar `Authentication` para verificar si el usuario es administrador.
+   - Si es admin, obtener la lista de bajo stock y pasarla al modelo como `lowStockItems`.
+3. **Modificar dashboard.html**: 
+   - Agregar un script que verifique si `lowStockItems` no está vacío y muestre un toast para cada item con bajo stock.
+   - Los toast deben ser de tipo warning o error para alertar sobre bajo stock.
+
+## Archivos a Editar
+- `src/main/resources/templates/layout.html`: Agregar CDN de Toastify.js.
+- `src/main/java/com/itca/inventario/controller/HomeController.java`: Modificar el método dashboard para incluir bajo stock si es admin.
+- `src/main/resources/templates/dashboard.html`: Agregar script para mostrar toasts.
+
+## Pasos de Seguimiento
+- [] Agregar Toastify.js al layout.html.
+- [] Modificar HomeController para pasar bajo stock al modelo solo para admins.
+- [] Agregar script en dashboard.html para mostrar toasts de bajo stock.
+- [] Probar la funcionalidad iniciando sesión como admin y verificando toasts.
