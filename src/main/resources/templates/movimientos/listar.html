@@ -1,39 +1,188 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout}">
 <head>
     <title>Movimientos</title>
+
+    <style>
+        /* ====== PALETA INSTITUCIONAL ITCA-FEPADE ======
+           Rojo: #C8102E
+           Azul oscuro: #00205B
+           Gris claro: #F5F6FA
+           Blanco: #FFFFFF
+        ==================================================*/
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #F5F6FA;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #2D2D2D;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Animación al cargar */
+        body {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ====== CONTENEDOR PRINCIPAL ====== */
+        .bg-white {
+            background-color: #FFFFFF;
+            border-radius: 16px;
+            padding: 32px;
+            margin: 40px auto;
+            box-shadow: 0 6px 16px rgba(0, 32, 91, 0.15);
+            width: 95%;
+            max-width: 1200px;
+        }
+
+        /* ====== TITULO ====== */
+        h1 {
+            color: #00205B;
+            font-weight: 800;
+            font-size: 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            border-bottom: 3px solid #00205B;
+            padding-bottom: 10px;
+        }
+
+        /* ====== BOTÓN NUEVO MOVIMIENTO ====== */
+        a[href="/movimientos/nuevo"] {
+            background-color: #C8102E;
+            color: #FFFFFF;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 12px 24px;
+            box-shadow: 0 4px 8px rgba(200, 16, 46, 0.25);
+            text-decoration: none;
+            transition: all 0.3s ease-in-out;
+            display: inline-block;
+        }
+
+        a[href="/movimientos/nuevo"]:hover {
+            background-color: #A60D26;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(200, 16, 46, 0.35);
+        }
+
+        /* ====== TABLA ====== */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 24px;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #FFFFFF;
+        }
+
+        thead {
+            background-color: #00205B;
+            color: #FFFFFF;
+        }
+
+        th {
+            font-size: 13px;
+            text-transform: uppercase;
+            padding: 14px 16px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #E4E7EB;
+            text-align: center;
+        }
+
+        tbody tr:hover {
+            background-color: #F1F4FF;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        /* ====== ENLACES DE ACCIÓN ====== */
+        .text-red-500 {
+            color: #C8102E;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .text-red-500:hover {
+            color: #A60D26;
+            text-decoration: underline;
+        }
+
+        /* ====== MENSAJE SIN REGISTROS ====== */
+        td[colspan] {
+            font-style: italic;
+            color: #6B7280;
+            background-color: #F9FAFB;
+        }
+
+        /* ====== EFECTOS Y DETALLES ====== */
+        .rounded {
+            border-radius: 10px;
+        }
+
+        .shadow {
+            box-shadow: 0 6px 16px rgba(0, 32, 91, 0.1);
+        }
+
+        footer {
+            height: 40px;
+            background: transparent;
+        }
+
+    </style>
 </head>
+
 <body>
 <div layout:fragment="content">
-    <div class="bg-white p-6 rounded shadow">
-        <h1 class="text-2xl font-bold mb-4">Movimientos</h1>
+    <div class="bg-white rounded shadow">
+        <h1>Movimientos</h1>
 
-        <a href="/movimientos/nuevo" class="bg-green-500 text-white px-4 py-2 rounded">Nuevo Movimiento</a>
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 20px;">
+            <a href="/movimientos/nuevo">+ Nuevo Movimiento</a>
+        </div>
 
-        <table class="w-full mt-4 border border-gray-300">
-            <thead class="bg-gray-200">
+        <table>
+            <thead>
             <tr>
-                <th class="border p-2">ID</th>
-                <th class="border p-2">Inventario</th>
-                <th class="border p-2">Tipo</th>
-                <th class="border p-2">Cantidad</th>
-                <th class="border p-2">Responsable</th>
-                <th class="border p-2">Fecha</th>
-                <th class="border p-2">Acciones</th>
+                <th>ID</th>
+                <th>Inventario</th>
+                <th>Tipo</th>
+                <th>Cantidad</th>
+                <th>Responsable</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="m : ${lista}" class="hover:bg-gray-50">
-                <td class="border p-2" th:text="${m.id}"></td>
-                <td class="border p-2" th:text="${m.inventario.nombre}"></td>
-                <td class="border p-2" th:text="${m.tipo}"></td>
-                <td class="border p-2" th:text="${m.cantidad}"></td>
-                <td class="border p-2" th:text="${m.responsable}"></td>
-                <td class="border p-2" th:text="${#temporals.format(m.fecha, 'dd/MM/yyyy HH:mm')}"></td>
-                <td class="border p-2 text-center">
-                    <a th:href="@{/movimientos/eliminar/{id}(id=${m.id})}" class="text-red-500"
+            <tr th:each="m : ${lista}">
+                <td th:text="${m.id}"></td>
+                <td th:text="${m.inventario.nombre}"></td>
+                <td th:text="${m.tipo}"></td>
+                <td th:text="${m.cantidad}"></td>
+                <td th:text="${m.responsable}"></td>
+                <td th:text="${#temporals.format(m.fecha, 'dd/MM/yyyy HH:mm')}"></td>
+                <td>
+                    <a th:href="@{/movimientos/eliminar/{id}(id=${m.id})}" 
+                       class="text-red-500"
                        onclick="return confirm('¿Eliminar este movimiento?')">Eliminar</a>
                 </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(lista)}">
+                <td colspan="7">No hay movimientos registrados.</td>
             </tr>
             </tbody>
         </table>
