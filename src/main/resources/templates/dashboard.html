@@ -181,10 +181,11 @@
 
     <div class="actions">
         <h2>Acciones Rápidas</h2>
-        <a href="/inventario/nuevo" class="green">Registrar Ítem</a>
+        <a href="/inventario" sec:authorize="hasRole('Administrador')"class="blue">Listado de Inventario</a>
+        <a href="/inventario/nuevo" sec:authorize="hasRole('Administrador')" class="green">Registrar Ítem</a>
         <a href="/solicitudes/nueva" class="blue">Nueva Solicitud</a>
         <a href="/movimientos" class="purple">Ver Movimientos</a>
-        <a href="/reports/inventario" class="gray">Exportar Inventario</a>
+        <a href="/reports/inventario" sec:authorize="hasRole('Administrador')"class="gray">Exportar Inventario</a>
         <a href="/usuarios" sec:authorize="hasRole('Administrador')" class="rose">Usuarios</a>
         <a href="/categorias" sec:authorize="hasRole('Administrador')" class="purple">Categorías</a>
     </div>

@@ -140,10 +140,11 @@
             </a>
 
             <!-- Menú principal -->
-            <div class="hidden md:flex items-center space-x-6">
+            <div class="flex items-center space-x-6 flex-wrap">
                 <a href="/inventario" class="nav-link text-gray-700 font-medium">📦 Inventario</a>
                 <a href="/solicitudes" class="nav-link text-gray-700 font-medium">📝 Solicitudes</a>
                 <a href="/movimientos" class="nav-link text-gray-700 font-medium">🔄 Movimientos</a>
+                <a href="/categorias" class="nav-link text-gray-700 font-medium">🏷️ Categorías</a>
 
                 <a href="/usuarios"
                    th:if="${#authorization.expression('hasRole(''Administrador'')')}"
@@ -193,6 +194,7 @@
             <a href="/inventario" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📦 Inventario</a>
             <a href="/solicitudes" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📝 Solicitudes</a>
             <a href="/movimientos" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🔄 Movimientos</a>
+            <a href="/categorias" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏷️ Categorías</a>
             <a href="/usuarios" th:if="${#authorization.expression('hasRole(''Administrador'')')}"
                class="block px-3 py-2 rounded-md text-base text-rose-600 hover:bg-gray-100">👤 Administración</a>
             <div class="pt-2 border-t border-gray-100">
@@ -218,10 +220,10 @@
     </div>
 </main>
 
-<!-- ====== BOTÓN VOLVER ATRÁS ====== -->
-<button id="back-button" class="back-button" onclick="history.back()" aria-label="Volver atrás">
+<!-- ====== BOTÓN REGRESAR AL INICIO ====== -->
+<button id="back-button" class="back-button" onclick="window.location.href='/dashboard'" aria-label="Regresar al inicio">
     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
     </svg>
 </button>
 
