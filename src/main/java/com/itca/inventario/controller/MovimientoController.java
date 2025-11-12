@@ -4,6 +4,7 @@ import com.itca.inventario.entity.Inventario;
 import com.itca.inventario.entity.Movimiento;
 import com.itca.inventario.service.InventarioService;
 import com.itca.inventario.service.MovimientoService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ public class MovimientoController {
         return "movimientos/listar";
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("movimiento", new Movimiento());
@@ -36,6 +38,7 @@ public class MovimientoController {
         return "movimientos/formulario";
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @PostMapping("/guardar")
     public String guardar(@ModelAttribute Movimiento movimiento, @RequestParam Integer inventarioId) {
         Inventario inv = inventarioService.buscar(inventarioId).orElse(null);
@@ -63,6 +66,7 @@ public class MovimientoController {
         return "redirect:/movimientos";
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {
         movimientoService.eliminar(id);

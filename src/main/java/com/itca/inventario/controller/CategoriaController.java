@@ -3,6 +3,7 @@ package com.itca.inventario.controller;
 import com.itca.inventario.entity.Categoria;
 import com.itca.inventario.repository.CategoriaRepository;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,12 +25,14 @@ public class CategoriaController {
         return "categorias/listar";
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @GetMapping("/nueva")
     public String nueva(Model model) {
         model.addAttribute("categoria", new Categoria());
         return "categorias/formulario";
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @PostMapping("/guardar")
     public String guardar(@Valid @ModelAttribute Categoria categoria, BindingResult result, Model model) {
         // Si hay errores de validación, volver al formulario
@@ -47,12 +50,14 @@ public class CategoriaController {
         }
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
         model.addAttribute("categoria", categoriaRepo.findById(id).orElse(new Categoria()));
         return "categorias/formulario";
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {
         categoriaRepo.deleteById(id);

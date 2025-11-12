@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <title>Listado de Tipos</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="max-w-6xl mx-auto py-8">
+        <div class="bg-white p-8 md:p-10 rounded-xl shadow-2xl border border-gray-100">
+
+            <div class="flex justify-between items-center mb-6 border-b pb-3">
+                <h1 class="text-3xl font-extrabold text-gray-800">📋 Listado de Tipos</h1>
+                <a href="/tipos/nuevo" class="inline-flex items-center justify-center px-6 py-3 border border-transparent shadow-lg text-base font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150">
+                    ➕ Nuevo Tipo
+                </a>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr th:each="tipo : ${listaTipos}" class="hover:bg-gray-50">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${tipo.id}"></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${tipo.nombre}"></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${tipo.descripcion}"></td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <a th:href="@{/tipos/editar/{id}(id=${tipo.id})}" class="text-indigo-600 hover:text-indigo-900 mr-4">Editar</a>
+                                <a th:href="@{/tipos/eliminar/{id}(id=${tipo.id})}" class="text-red-600 hover:text-red-900" onclick="return confirm('¿Estás seguro de eliminar este tipo?')">Eliminar</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${#lists.isEmpty(listaTipos)}" class="text-center py-8">
+                <p class="text-gray-500">No hay tipos registrados.</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
