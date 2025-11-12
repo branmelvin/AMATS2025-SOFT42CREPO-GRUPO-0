@@ -1,40 +1,95 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
 <head>
     <title>Solicitudes de Materiales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Filtro de texto y estado
+        function filtrarSolicitudes() {
+            const texto = document.getElementById("buscarInput").value.toLowerCase();
+            const estado = document.getElementById("estadoFiltro").value;
+            const filas = document.querySelectorAll("#tablaSolicitudes tbody tr[data-solicitud]");
+
+            filas.forEach(fila => {
+                const textoFila = fila.textContent.toLowerCase();
+                const estadoFila = fila.getAttribute("data-estado");
+
+                const coincideTexto = texto === "" || textoFila.includes(texto);
+                const coincideEstado = estado === "" || estadoFila === estado;
+
+                fila.style.display = (coincideTexto && coincideEstado) ? "" : "none";
+            });
+        }
+
+        function limpiarFiltros() {
+            document.getElementById("buscarInput").value = "";
+            document.getElementById("estadoFiltro").value = "";
+            filtrarSolicitudes();
+        }
+    </script>
 </head>
 <body>
 <div layout:fragment="content">
     <div class="bg-white p-8 rounded-xl shadow-2xl">
 
+        <!-- Encabezado -->
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b pb-4">
             <h1 class="text-3xl font-extrabold text-gray-800 mb-4 sm:mb-0">📜 Solicitudes de Materiales</h1>
 
-            <a href="/solicitudes/nueva" class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150">
+            <a href="/solicitudes/nueva"
+               class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150">
                 ➕ Nueva Solicitud
             </a>
         </div>
 
-        <div class="overflow-x-auto shadow-lg rounded-lg border border-gray-100">
+        <!-- 🔍 Barra de filtros -->
+        <div class="flex flex-col sm:flex-row items-center gap-4 mb-6 bg-gray-50 p-4 rounded-lg shadow-inner">
+            <input type="text" id="buscarInput" onkeyup="filtrarSolicitudes()"
+                   placeholder="Buscar por docente, material o motivo..."
+                   class="flex-1 w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
+
+            <select id="estadoFiltro" onchange="filtrarSolicitudes()"
+                    class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition">
+                <option value="">Todos los estados</option>
+                <option value="Aprobado">Aprobado</option>
+                <option value="Rechazado">Rechazado</option>
+                <option value="Pendiente">Pendiente</option>
+            </select>
+
+            <button onclick="limpiarFiltros()"
+                    class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition">
+                🔄 Limpiar
+            </button>
+        </div>
+
+        <!-- Tabla -->
+        <div class="overflow-x-auto shadow-lg rounded-lg border border-gray-100" id="tablaSolicitudes">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                 <tr>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Docente</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Material</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Cantidad</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Motivo</th>
-                    <th scope="col" class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Fecha</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Estado</th>
-                    <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider" sec:authorize="hasRole('Administrador')">Acciones</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Docente</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Material</th>
+                    <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Cantidad</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Motivo</th>
+                    <th class="px-6 py-3 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Fecha</th>
+                    <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Estado</th>
+                    <th class="px-6 py-3 text-center text-xs font-bold text-gray-600 uppercase tracking-wider"
+                        sec:authorize="hasRole('Administrador')">Acciones</th>
                 </tr>
                 </thead>
+
                 <tbody class="bg-white divide-y divide-gray-200">
-                <tr th:each="s : ${solicitudes}" class="hover:bg-blue-50/50 transition duration-150">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" th:text="${s.usuario.nombre}"></td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700" th:text="${s.inventario.nombre}"></td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-center font-semibold text-gray-800" th:text="${s.cantidad}"></td>
+                <tr th:each="s : ${solicitudes}" data-solicitud th:attr="data-estado=${s.estado.name()}"
+                    class="hover:bg-blue-50/50 transition duration-150">
+                    <td class="px-6 py-4 text-sm font-medium text-gray-900" th:text="${s.usuario.nombre}"></td>
+                    <td class="px-6 py-4 text-sm text-gray-700" th:text="${s.inventario.nombre}"></td>
+                    <td class="px-6 py-4 text-sm text-center font-semibold text-gray-800" th:text="${s.cantidad}"></td>
                     <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate" th:text="${s.motivo}"></td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500" th:text="${#temporals.format(s.fechaSolicitud, 'dd/MM/yyyy HH:mm')}"></td>
+                    <td class="px-6 py-4 text-sm text-gray-500"
+                        th:text="${#temporals.format(s.fechaSolicitud, 'dd/MM/yyyy HH:mm')}"></td>
 
                     <td class="px-6 py-4 whitespace-nowrap text-center">
                         <span th:text="${s.estado.name()}"
@@ -44,7 +99,7 @@
                         </span>
                     </td>
 
-                    <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium" sec:authorize="hasRole('Administrador')">
+                    <td class="px-6 py-4 text-center text-sm font-medium" sec:authorize="hasRole('Administrador')">
                         <div th:if="${s.estado.name() == 'Pendiente'}">
                             <a th:href="@{/solicitudes/aprobar/{id}(id=${s.id})}"
                                class="text-green-600 hover:text-green-900 transition duration-150 mr-2">
@@ -60,6 +115,7 @@
                         <span th:unless="${s.estado.name() == 'Pendiente'}" class="text-gray-400 text-xs">Revisada</span>
                     </td>
                 </tr>
+
                 <tr th:if="${#lists.isEmpty(solicitudes)}">
                     <td colspan="7" class="px-6 py-6 text-center text-gray-500 text-base">
                         No se encontraron solicitudes pendientes o históricas.
