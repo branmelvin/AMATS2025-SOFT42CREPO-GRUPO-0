@@ -3,8 +3,10 @@ package com.itca.inventario.controller;
 import com.itca.inventario.entity.Inventario;
 import com.itca.inventario.repository.CategoriaRepository;
 import com.itca.inventario.service.InventarioService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -33,9 +35,20 @@ public class InventarioController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Inventario inv) {
-        // ajustar cantidadActual si es null
-        if (inv.getCantidadActual() == null) inv.setCantidadActual(0);
+    public String guardar(@Valid @ModelAttribute("inventario") Inventario inv,
+                          BindingResult result,
+                          Model model) {
+        // Si hay errores de validación, volver al formulario
+        if (result.hasErrors()) {
+            model.addAttribute("categorias", categoriaRepo.findAll());
+            return "Inventario/formulario";
+        }
+
+        // Ajustar cantidadActual si es null
+        if (inv.getCantidadActual() == null) {
+            inv.setCantidadActual(0);
+        }
+
         service.guardar(inv);
         return "redirect:/inventario";
     }
