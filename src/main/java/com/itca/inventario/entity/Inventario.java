@@ -31,9 +31,13 @@ public class Inventario {
     @Column(name = "cantidad_actual")
     private Integer cantidadActual = 0;
 
-    private String tipo;
-    @Column(name = "area_encargada")
-    private String areaEncargada;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tipo_id")
+    private Tipo tipo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "area_encargada_id")
+    private AreaEncargada areaEncargada;
 
     @Column(name = "fecha_vencimiento")
     private LocalDate fechaVencimiento;
@@ -41,8 +45,9 @@ public class Inventario {
     @Column(columnDefinition = "TEXT")
     private String observacion;
 
-    @Column(name = "ubicacion")
-    private String ubicacion;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ubicacion_id")
+    private Ubicacion ubicacion;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id")

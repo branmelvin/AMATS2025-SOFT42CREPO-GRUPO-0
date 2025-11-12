@@ -5,6 +5,7 @@ import com.itca.inventario.entity.Usuario;
 import com.itca.inventario.repository.InventarioRepository;
 import com.itca.inventario.repository.SolicitudRepository;
 import com.itca.inventario.repository.UsuarioRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,6 +69,7 @@ public class SolicitudController {
         return "redirect:/solicitudes";
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @GetMapping("/aprobar/{id}")
     public String aprobar(@PathVariable Integer id) {
         solicitudRepo.findById(id).ifPresent(s -> {
@@ -77,6 +79,7 @@ public class SolicitudController {
         return "redirect:/solicitudes";
     }
 
+    @PreAuthorize("hasRole('Administrador')")
     @GetMapping("/rechazar/{id}")
     public String rechazar(@PathVariable Integer id) {
         solicitudRepo.findById(id).ifPresent(s -> {

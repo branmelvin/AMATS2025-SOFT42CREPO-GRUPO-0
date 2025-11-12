@@ -145,6 +145,9 @@
                 <a href="/solicitudes" class="nav-link text-gray-700 font-medium">📝 Solicitudes</a>
                 <a href="/movimientos" class="nav-link text-gray-700 font-medium">🔄 Movimientos</a>
                 <a href="/categorias" class="nav-link text-gray-700 font-medium">🏷️ Categorías</a>
+                <a href="/tipos" class="nav-link text-gray-700 font-medium">🏷️ Tipos</a>
+                <a href="/areas-encargadas" class="nav-link text-gray-700 font-medium">🏢 Áreas Encargadas</a>
+                <a href="/ubicaciones" class="nav-link text-gray-700 font-medium">📍 Ubicaciones</a>
 
                 <a href="/usuarios"
                    th:if="${#authorization.expression('hasRole(''Administrador'')')}"
@@ -195,6 +198,9 @@
             <a href="/solicitudes" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📝 Solicitudes</a>
             <a href="/movimientos" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🔄 Movimientos</a>
             <a href="/categorias" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏷️ Categorías</a>
+            <a href="/tipos" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏷️ Tipos</a>
+            <a href="/areas-encargadas" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">🏢 Áreas Encargadas</a>
+            <a href="/ubicaciones" class="block px-3 py-2 rounded-md text-base text-gray-700 hover:bg-gray-100">📍 Ubicaciones</a>
             <a href="/usuarios" th:if="${#authorization.expression('hasRole(''Administrador'')')}"
                class="block px-3 py-2 rounded-md text-base text-rose-600 hover:bg-gray-100">👤 Administración</a>
             <div class="pt-2 border-t border-gray-100">
